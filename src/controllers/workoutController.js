@@ -23,7 +23,8 @@ const getExercisesByMuscles = async (req, res) => {
         "Abdominals": { name: "Crunches", sets: 4, reps: 20 },
         "Obliques": { name: "Side Plank", sets: 3, reps: 30 },
         "Adductors": { name: "Adductor Machine", sets: 4, reps: 12 },
-        "Quadriceps": { name: "Leg Press", sets: 4, reps: 10 }
+        "Quadriceps": { name: "Leg Press", sets: 4, reps: 10 },
+        "Chest": { name: "Bench Press", sets: 4, reps: 10 }
     };
 
     // If no muscles are provided, return all exercises
