@@ -46,6 +46,7 @@ const getExercisesByMuscles = async (req, res) => {
 
 
 
+//----------------------------------------------------------------------//
 // Chest workout
 const getChestDayWorkout = async (req, res) => {
     const chestWorkout = {
@@ -225,9 +226,10 @@ const getQuadricepsWorkout = async (req, res) => {
 };
 //----------------------------------------------------------------------//
 //----------------------------------------------------------------------//
-// Save custom workout to Firestore
-const saveUserWorkout = async (req, res) => {
-    const { userId, workoutName, exercises } = req.body;
+// Add custom workout to Firestore
+const addUserWorkout = async (req, res) => {
+    const {userId} = req.params;
+    const { workoutName, exercises } = req.body;
 
     try {
         await db.collection('users').doc(userId).collection('workouts').add({
@@ -263,7 +265,70 @@ const deleteUserWorkout = async (req, res) => {
     }
 };
 //----------------------------------------------------------------------//
+// get user workouts
+const getUserWorkouts = async (req, res) => {
+    const {userId} = req.params;
+
+    try {
+       
+
+        const workoutsRef = db.collection('users').doc(userId).collection('workouts');
+        const snapshot = await workoutsRef.get();
+       if (snapshot.empty) {
+        res.status(500).json({ message: 'Workout does not exist' });
+        return;
+   }
+   const workouts = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+   res.status(200).json(workouts);
+    } catch (error) {
+        res.status(500).json({ message: 'Error saving workout', error });
+    }
+};
+//----------------------------------------------------------------------//
+// get user workouts
+const getUserWorkout = async (req, res) => {
+    const {userId, workoutId} = req.params;
+
+    try {
+        const workouts = await db.collection('users').doc(userId).collection('workouts').doc(workoutId).get();
+
+        if (!workouts.exists) {
+            res.status(500).json({ message: 'Workout does not exist' });
+            return;
+        }
+        res.status(200).json(workouts.data());
+    } catch (error) {
+        res.status(500).json({ message: 'Error saving workout', error });
+    }
+};
+//----------------------------------------------------------------------//
+
 module.exports = { 
-    getExercisesByMuscles
+    getExercisesByMuscles,
+    getUserWorkout,
+    getUserWorkouts,
+    getChestDayWorkout, 
+    getLegDayWorkout, 
+    getBackDayWorkout, 
+    getArmDayWorkout,
+    getForearmsWorkout,
+    getBicepsWorkout,
+    getTricepsWorkout,
+    getDeltoidsWorkout,
+    getPectoralsWorkout,
+    getRotatorCuffWorkout,
+    getUpperBackWorkout,
+    getTrapeziusWorkout,
+    getParavertebralsWorkout,
+    getLowerBackWorkout,
+    getGluteusWorkout,
+    getHamstringsWorkout,
+    getCalvesWorkout,
+    getAbdominalsWorkout,
+    getObliqueWorkout,
+    getAdductorsWorkout,
+    getQuadricepsWorkout,
+    addUserWorkout,
+    deleteUserWorkout
 };
 //----------------------------------------------------------------------//
