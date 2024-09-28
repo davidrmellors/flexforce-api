@@ -6,11 +6,6 @@ const { db } = require('../config/firebase');
 const getExercisesByMuscles = async (req, res) => {
     const { muscles } = req.body; // Expect an array of muscle group names
 
-    // Check if 'muscles' exists and is an array
-    if (!muscles || !Array.isArray(muscles)) {
-        return res.status(400).json({ message: "Invalid input. 'muscles' should be an array." });
-    }
-
     // A dictionary of muscle group to exercise mappings
     const exerciseDictionary = {
         "Forearms": { name: "Wrist Curl", sets: 4, reps: 12 },
@@ -31,6 +26,12 @@ const getExercisesByMuscles = async (req, res) => {
         "Quadriceps": { name: "Leg Press", sets: 4, reps: 10 }
     };
 
+    // If no muscles are provided, return all exercises
+    if (!muscles || muscles.length === 0) {
+        const allExercises = Object.values(exerciseDictionary);
+        return res.json({ exercises: allExercises });
+    }
+
     // Filter exercises based on the provided muscle groups
     const selectedExercises = muscles.map(muscle => exerciseDictionary[muscle]).filter(Boolean);
 
@@ -40,6 +41,7 @@ const getExercisesByMuscles = async (req, res) => {
         res.status(404).json({ message: "No exercises found for the selected muscle groups." });
     }
 };
+
 
 
 
