@@ -6,6 +6,11 @@ const { db } = require('../config/firebase');
 const getExercisesByMuscles = async (req, res) => {
     const { muscles } = req.body; // Expect an array of muscle group names
 
+    // Check if 'muscles' exists and is an array
+    if (!muscles || !Array.isArray(muscles)) {
+        return res.status(400).json({ message: "Invalid input. 'muscles' should be an array." });
+    }
+
     // A dictionary of muscle group to exercise mappings
     const exerciseDictionary = {
         "Forearms": { name: "Wrist Curl", sets: 4, reps: 12 },
@@ -23,7 +28,7 @@ const getExercisesByMuscles = async (req, res) => {
         "Abdominals": { name: "Crunches", sets: 4, reps: 20 },
         "Obliques": { name: "Side Plank", sets: 3, reps: 30 },
         "Adductors": { name: "Adductor Machine", sets: 4, reps: 12 },
-        "Quadriceps": { name: "Leg Press", sets: 4, reps: 10 },
+        "Quadriceps": { name: "Leg Press", sets: 4, reps: 10 }
     };
 
     // Filter exercises based on the provided muscle groups
@@ -35,6 +40,7 @@ const getExercisesByMuscles = async (req, res) => {
         res.status(404).json({ message: "No exercises found for the selected muscle groups." });
     }
 };
+
 
 
 // Chest workout
@@ -255,29 +261,6 @@ const deleteUserWorkout = async (req, res) => {
 };
 //----------------------------------------------------------------------//
 module.exports = { 
-    getChestDayWorkout, 
-    getLegDayWorkout, 
-    getBackDayWorkout, 
-    getArmDayWorkout,
-    getForearmsWorkout,
-    getBicepsWorkout,
-    getTricepsWorkout,
-    getDeltoidsWorkout,
-    getPectoralsWorkout,
-    getRotatorCuffWorkout,
-    getUpperBackWorkout,
-    getTrapeziusWorkout,
-    getParavertebralsWorkout,
-    getLowerBackWorkout,
-    getGluteusWorkout,
-    getHamstringsWorkout,
-    getCalvesWorkout,
-    getAbdominalsWorkout,
-    getObliqueWorkout,
-    getAdductorsWorkout,
-    getQuadricepsWorkout,
-    saveUserWorkout,
-    deleteUserWorkout,
     getExercisesByMuscles
 };
 //----------------------------------------------------------------------//

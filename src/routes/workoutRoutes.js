@@ -1,8 +1,8 @@
 const express = require('express');
-const { getChestWorkout, getLegWorkout, getExercisesByMuscles } = require('../controllers/workoutController');
+const { getExercisesByMuscles } = require('../controllers/workoutController');
 const router = express.Router();
 
+// Change this to POST since you're expecting a body
 router.post('/exercises', getExercisesByMuscles);
-router.get('/legs', getLegWorkout);
 
 module.exports = router;
