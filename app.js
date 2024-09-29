@@ -11,7 +11,6 @@ app.use(express.json());
 
 // Routes
 app.use('/api/workouts', workoutRoutes);
-app.use('/users/)
 
 // Start server
 app.listen(port, () => {
