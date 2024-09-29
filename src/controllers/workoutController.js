@@ -282,23 +282,29 @@ const deleteUserWorkout = async (req, res) => {
 //----------------------------------------------------------------------//
 // get user workouts
 const getUserWorkouts = async (req, res) => {
-    const {userId} = req.params;
+    const { userId } = req.params;
 
     try {
-       
-
         const workoutsRef = db.collection('users').doc(userId).collection('workouts');
         const snapshot = await workoutsRef.get();
-       if (snapshot.empty) {
-        res.status(500).json({ message: 'Workout does not exist' });
-        return;
-   }
-   const workouts = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-   res.status(200).json(workouts);
+        
+        if (snapshot.empty) {
+            return res.status(404).json({ message: 'No workouts found for this user' });
+        }
+
+        const workouts = snapshot.docs.map(doc => ({
+            id: doc.id,
+            workoutName: doc.data().workoutName,
+            exercises: doc.data().exercises
+        }));
+
+        res.status(200).json(workouts);
     } catch (error) {
-        res.status(500).json({ message: 'Error saving workout', error });
+        console.error('Error retrieving workouts:', error);
+        res.status(500).json({ message: 'Error retrieving workouts', error });
     }
 };
+
 //----------------------------------------------------------------------//
 // get user workouts
 const getUserWorkout = async (req, res) => {
