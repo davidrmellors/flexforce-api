@@ -326,6 +326,41 @@ const getUserWorkout = async (req, res) => {
 };
 //----------------------------------------------------------------------//
 
+const getChallengeData = async (req, res) => {
+    const challengeId = req.params.challengeId;
+
+    const challengeData = {
+        "Challenge 1": {
+            challengeId: "Challenge 1",
+            timePeriod: "30 Days",
+            challengeType: "Beginner",
+            tracking: "Daily Progress"
+        },
+        "Challenge 2": {
+            challengeId: "Challenge 2",
+            timePeriod: "45 Days",
+            challengeType: "Intermediate",
+            tracking: "Weekly Check-ins"
+        },
+        "Challenge 3": {
+            challengeId: "Challenge 3",
+            timePeriod: "60 Days",
+            challengeType: "Advanced",
+            tracking: "Monthly Review"
+        }
+    };
+
+    const selectedChallenge = challengeData[challengeId];
+
+    if (selectedChallenge) {
+        res.status(200).json(selectedChallenge);
+    } else {
+        res.status(404).json({ message: "Challenge not found" });
+    }
+};
+
+
+
 module.exports = { 
     getExercisesByMuscles,
     getUserWorkout,
@@ -352,6 +387,7 @@ module.exports = {
     getAdductorsWorkout,
     getQuadricepsWorkout,
     addUserWorkout,
-    deleteUserWorkout
+    deleteUserWorkout,
+    getChallengeData
 };
 //----------------------------------------------------------------------//
