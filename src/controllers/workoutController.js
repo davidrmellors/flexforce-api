@@ -6,25 +6,25 @@ const { db } = require('../config/firebase');
 const getExercisesByMuscles = async (req, res) => {
     const { muscles } = req.body; // Expect an array of muscle group names
 
-    // A dictionary of muscle group to exercise mappings
+    // A dictionary of muscle group to exercise mappings including muscle group and equipment
     const exerciseDictionary = {
-        "Forearms": { name: "Wrist Curl", sets: 4, reps: 12 },
-        "Biceps": { name: "Bicep Curl", sets: 4, reps: 10 },
-        "Triceps": { name: "Tricep Extension", sets: 4, reps: 12 },
-        "Deltoids": { name: "Shoulder Press", sets: 4, reps: 10 },
-        "Pectorals": { name: "Bench Press", sets: 4, reps: 8 },
-        "Upper Back": { name: "Pull-Up", sets: 4, reps: 8 },
-        "Trapezius": { name: "Shrugs", sets: 4, reps: 12 },
-        "Paravertebrals": { name: "Back Extension", sets: 3, reps: 12 },
-        "Lower Back": { name: "Deadlift", sets: 4, reps: 6 },
-        "Gluteus": { name: "Hip Thrust", sets: 4, reps: 10 },
-        "Hamstrings": { name: "Leg Curl", sets: 4, reps: 12 },
-        "Calves": { name: "Calf Raise", sets: 4, reps: 15 },
-        "Abdominals": { name: "Crunches", sets: 4, reps: 20 },
-        "Obliques": { name: "Side Plank", sets: 3, reps: 30 },
-        "Adductors": { name: "Adductor Machine", sets: 4, reps: 12 },
-        "Quadriceps": { name: "Leg Press", sets: 4, reps: 10 },
-        "Chest": { name: "Bench Press", sets: 4, reps: 10 }
+        "Forearms": { name: "Wrist Curl", sets: 4, reps: 12, muscleGroup: "Forearms", equipment: "Dumbbells" },
+        "Biceps": { name: "Bicep Curl", sets: 4, reps: 10, muscleGroup: "Biceps", equipment: "Barbell" },
+        "Triceps": { name: "Tricep Extension", sets: 4, reps: 12, muscleGroup: "Triceps", equipment: "Cable Machine" },
+        "Deltoids": { name: "Shoulder Press", sets: 4, reps: 10, muscleGroup: "Deltoids", equipment: "Dumbbells" },
+        "Pectorals": { name: "Bench Press", sets: 4, reps: 8, muscleGroup: "Pectorals", equipment: "Barbell" },
+        "Upper Back": { name: "Pull-Up", sets: 4, reps: 8, muscleGroup: "Upper Back", equipment: "Body Weight" },
+        "Trapezius": { name: "Shrugs", sets: 4, reps: 12, muscleGroup: "Trapezius", equipment: "Dumbbells" },
+        "Paravertebrals": { name: "Back Extension", sets: 3, reps: 12, muscleGroup: "Paravertebrals", equipment: "Body Weight" },
+        "Lower Back": { name: "Deadlift", sets: 4, reps: 6, muscleGroup: "Lower Back", equipment: "Barbell" },
+        "Gluteus": { name: "Hip Thrust", sets: 4, reps: 10, muscleGroup: "Gluteus", equipment: "Barbell" },
+        "Hamstrings": { name: "Leg Curl", sets: 4, reps: 12, muscleGroup: "Hamstrings", equipment: "Machine" },
+        "Calves": { name: "Calf Raise", sets: 4, reps: 15, muscleGroup: "Calves", equipment: "Body Weight" },
+        "Abdominals": { name: "Crunches", sets: 4, reps: 20, muscleGroup: "Abdominals", equipment: "Body Weight" },
+        "Obliques": { name: "Side Plank", sets: 3, reps: 30, muscleGroup: "Obliques", equipment: "Body Weight" },
+        "Adductors": { name: "Adductor Machine", sets: 4, reps: 12, muscleGroup: "Adductors", equipment: "Machine" },
+        "Quadriceps": { name: "Leg Press", sets: 4, reps: 10, muscleGroup: "Quadriceps", equipment: "Machine" },
+        "Chest": { name: "Bench Press", sets: 4, reps: 10, muscleGroup: "Chest", equipment: "Barbell" }
     };
 
     // If no muscles are provided, return all exercises
@@ -42,6 +42,7 @@ const getExercisesByMuscles = async (req, res) => {
         res.status(404).json({ message: "No exercises found for the selected muscle groups." });
     }
 };
+
 
 
 
