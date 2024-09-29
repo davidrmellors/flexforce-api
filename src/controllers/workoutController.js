@@ -43,6 +43,7 @@ const getExercisesByMuscles = async (req, res) => {
     }
 };
 
+//---------------------------------------------------------------------------------------------------//
 
 const getChallengeData = async (req, res) => {
     const challengeId = req.params.challengeId;
@@ -52,19 +53,22 @@ const getChallengeData = async (req, res) => {
             challengeId: "Challenge 1",
             timePeriod: "30 Days",
             challengeType: "Beginner",
-            tracking: "Daily Progress"
+            tracking: "Daily Progress",
+            description: "A 30-day challenge designed for beginners to build foundational strength and endurance."
         },
         "Challenge 2": {
             challengeId: "Challenge 2",
             timePeriod: "45 Days",
             challengeType: "Intermediate",
-            tracking: "Weekly Check-ins"
+            tracking: "Weekly Check-ins",
+            description: "A 45-day challenge aimed at intermediate fitness enthusiasts to enhance their performance."
         },
         "Challenge 3": {
             challengeId: "Challenge 3",
             timePeriod: "60 Days",
             challengeType: "Advanced",
-            tracking: "Monthly Review"
+            tracking: "Monthly Review",
+            description: "A 60-day advanced challenge for seasoned athletes to push their limits and achieve peak fitness."
         }
     };
 
@@ -76,6 +80,7 @@ const getChallengeData = async (req, res) => {
         res.status(404).json({ message: "Challenge not found" });
     }
 };
+//-------------------------------------------------------------------------------------//
 
 
 
