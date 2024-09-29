@@ -229,16 +229,30 @@ const getQuadricepsWorkout = async (req, res) => {
 //----------------------------------------------------------------------//
 // Add custom workout to Firestore
 const addUserWorkout = async (req, res) => {
-    const {userId} = req.params;
+    const { userId } = req.params;
     const { workoutName, exercises } = req.body;
 
+    // Validate the input data
+    if (!userId || !workoutName || !Array.isArray(exercises)) {
+        return res.status(400).json({ message: 'Invalid input data.' });
+    }
+
     try {
+        // Store the workout with exercises, muscle group, and equipment info
         await db.collection('users').doc(userId).collection('workouts').add({
             workoutName,
-            exercises,
+            exercises: exercises.map(exercise => ({
+                name: exercise.name,
+                sets: exercise.sets,
+                reps: exercise.reps,
+                muscleGroup: exercise.muscleGroup,
+                equipment: exercise.equipment,
+            })),
+            createdAt: new Date(),
         });
         res.status(200).json({ message: 'Workout saved successfully!' });
     } catch (error) {
+        console.error('Error saving workout:', error);
         res.status(500).json({ message: 'Error saving workout', error });
     }
 };
