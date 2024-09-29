@@ -14,16 +14,16 @@ const getExercisesByMuscles = async (req, res) => {
         "Deltoids": { name: "Shoulder Press", sets: 4, reps: 10, muscleGroup: "Deltoids", equipment: "Dumbbells" },
         "Pectorals": { name: "Bench Press", sets: 4, reps: 8, muscleGroup: "Pectorals", equipment: "Barbell" },
         "Upper Back": { name: "Pull-Up", sets: 4, reps: 8, muscleGroup: "Upper Back", equipment: "Body Weight" },
-        "Trapezius": { name: "Shrugs", sets: 4, reps: 12, muscleGroup: "Trapezius", equipment: "Dumbbells" },
+        "Trapezius": { name: "Shrugs", sets: 4, reps: 12, muscleGroup: "Traps", equipment: "Dumbbells" },
         "Paravertebrals": { name: "Back Extension", sets: 3, reps: 12, muscleGroup: "Paravertebrals", equipment: "Body Weight" },
         "Lower Back": { name: "Deadlift", sets: 4, reps: 6, muscleGroup: "Lower Back", equipment: "Barbell" },
-        "Gluteus": { name: "Hip Thrust", sets: 4, reps: 10, muscleGroup: "Gluteus", equipment: "Barbell" },
+        "Gluteus": { name: "Hip Thrust", sets: 4, reps: 10, muscleGroup: "Glutes", equipment: "Barbell" },
         "Hamstrings": { name: "Leg Curl", sets: 4, reps: 12, muscleGroup: "Hamstrings", equipment: "Machine" },
         "Calves": { name: "Calf Raise", sets: 4, reps: 15, muscleGroup: "Calves", equipment: "Body Weight" },
-        "Abdominals": { name: "Crunches", sets: 4, reps: 20, muscleGroup: "Abdominals", equipment: "Body Weight" },
+        "Abdominals": { name: "Crunches", sets: 4, reps: 20, muscleGroup: "Abs", equipment: "Body Weight" },
         "Obliques": { name: "Side Plank", sets: 3, reps: 30, muscleGroup: "Obliques", equipment: "Body Weight" },
         "Adductors": { name: "Adductor Machine", sets: 4, reps: 12, muscleGroup: "Adductors", equipment: "Machine" },
-        "Quadriceps": { name: "Leg Press", sets: 4, reps: 10, muscleGroup: "Quadriceps", equipment: "Machine" },
+        "Quadriceps": { name: "Leg Press", sets: 4, reps: 10, muscleGroup: "Quads", equipment: "Machine" },
         "Chest": { name: "Bench Press", sets: 4, reps: 10, muscleGroup: "Chest", equipment: "Barbell" }
     };
 
