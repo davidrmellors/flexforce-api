@@ -61,6 +61,7 @@ router.get('/quadriceps', getQuadricepsWorkout);
 
 // DELETE route: Delete a specific user workout by workoutId
 router.post('/saveWorkout/:userId', addUserWorkout);
+router.get('/getUserWorkouts/:userId', getUserWorkouts);
 router.delete('/user/:userId/workouts/:workoutId', deleteUserWorkout);
 router.get('/user/:userId/workouts/:workoutId', getUserWorkout);
 router.get('/user/:userId/workouts', getUserWorkouts);
