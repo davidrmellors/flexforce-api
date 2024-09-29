@@ -27,6 +27,8 @@ const {
     addUserWorkout,
     deleteUserWorkout,
     getChallengeData
+    deleteUserWorkout,
+    getChallengeData
 } = require('../controllers/workoutController');
 const router = express.Router();
 
