@@ -27,6 +27,7 @@ const {
     addUserWorkout,
     deleteUserWorkout,
     getChallengeData,
+    getWeeklyWorkoutPlan
 } = require('../controllers/workoutController');
 const router = express.Router();
 
@@ -67,7 +68,8 @@ router.delete('/user/:userId/workouts/:workoutId', deleteUserWorkout);
 router.get('/user/:userId/workouts/:workoutId', getUserWorkout);
 router.get('/user/:userId/workouts', getUserWorkouts);
 
-
+//Challenge routes
 router.get('/challenges/:challengeId', getChallengeData);
+router.get('/challengesWorkouts', getWeeklyWorkoutPlan);
 
 module.exports = router;

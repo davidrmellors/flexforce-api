@@ -264,8 +264,9 @@ const getQuadricepsWorkout = async (req, res) => {
     };
     res.json(workout);
 };
+
 //----------------------------------------------------------------------//
-//----------------------------------------------------------------------//
+
 // Add custom workout to Firestore
 const addUserWorkout = async (req, res) => {
     const { userId } = req.params;
@@ -365,6 +366,68 @@ const getUserWorkout = async (req, res) => {
 };
 //----------------------------------------------------------------------//
 
+const getWeeklyWorkoutPlan = async (req, res) => {
+    const weeklyPlan = {
+        "Monday": ["Back", "Biceps"],
+        "Tuesday": ["Chest", "Legs"],
+        "Wednesday": ["Shoulders", "Abs"],
+        "Thursday": ["Legs", "Triceps"],
+        "Friday": ["Back", "Chest"],
+        "Saturday": ["Arms", "Abs"],
+        "Sunday": ["Rest"]
+    };
+
+    const exerciseDictionary = {
+        "Back": [
+            { name: "Deadlift", sets: 4, reps: 6 },
+            { name: "Pull-ups", sets: 4, reps: 8 },
+            { name: "Barbell Rows", sets: 4, reps: 10 }
+        ],
+        "Biceps": [
+            { name: "Bicep Curl", sets: 4, reps: 10 },
+            { name: "Hammer Curls", sets: 4, reps: 12 }
+        ],
+        "Chest": [
+            { name: "Bench Press", sets: 4, reps: 8 },
+            { name: "Incline Bench Press", sets: 4, reps: 8 },
+            { name: "Dumbbell Flyes", sets: 4, reps: 10 }
+        ],
+        "Legs": [
+            { name: "Squat", sets: 4, reps: 10 },
+            { name: "Lunges", sets: 3, reps: 12 },
+            { name: "Leg Press", sets: 4, reps: 10 }
+        ],
+        "Shoulders": [
+            { name: "Shoulder Press", sets: 4, reps: 10 },
+            { name: "Lateral Raises", sets: 4, reps: 12 }
+        ],
+        "Abs": [
+            { name: "Crunches", sets: 4, reps: 20 },
+            { name: "Side Plank", sets: 3, reps: 30 } // seconds
+        ],
+        "Triceps": [
+            { name: "Tricep Extension", sets: 4, reps: 12 },
+            { name: "Tricep Dips", sets: 4, reps: 10 }
+        ],
+        "Arms": [
+            { name: "Bicep Curl", sets: 4, reps: 10 },
+            { name: "Tricep Extension", sets: 4, reps: 12 }
+        ]
+    };
+
+    const weeklyWorkoutPlan = {};
+
+    for (const [day, muscleGroups] of Object.entries(weeklyPlan)) {
+        if (day === "Sunday") {
+            weeklyWorkoutPlan[day] = { message: "Rest Day" };
+        } else {
+            weeklyWorkoutPlan[day] = muscleGroups.flatMap(muscleGroup => exerciseDictionary[muscleGroup]);
+        }
+    }
+
+    res.status(200).json(weeklyWorkoutPlan);
+};
+
 module.exports = { 
     getExercisesByMuscles,
     getUserWorkout,
@@ -391,6 +454,7 @@ module.exports = {
     getAdductorsWorkout,
     getQuadricepsWorkout,
     addUserWorkout,
+    getWeeklyWorkoutPlan,
     deleteUserWorkout,
     getChallengeData
 };
