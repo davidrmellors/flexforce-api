@@ -441,6 +441,34 @@ const updateUserChallengeStatus = async (req, res) => {
     }
 };
 
+// Get the status of a specific challenge for a user
+const getUserChallengeStatus = async (req, res) => {
+    const { userId, challengeId } = req.params;  // Get userId and challengeId from URL parameters
+
+    // Validate the input data
+    if (!userId || !challengeId) {
+        return res.status(400).json({ message: "Invalid input data. userId and challengeId are required." });
+    }
+
+    try {
+        // Reference to the specific challenge document in the user's challenges subcollection
+        const userChallengeRef = db.collection('users').doc(userId).collection('challenges').doc(challengeId);
+        const doc = await userChallengeRef.get();
+
+        if (!doc.exists) {
+            return res.status(404).json({ message: "Challenge not found for this user." });
+        }
+
+        // Extract the status field from the document data
+        const { status } = doc.data();
+        res.status(200).json({ status });
+    } catch (error) {
+        console.error('Error retrieving challenge status:', error);
+        res.status(500).json({ message: "Error retrieving challenge status", error });
+    }
+};
+
+
 
 
 // Get User-Specific Challenges from Firestore
@@ -569,7 +597,8 @@ module.exports = {
     getChallengeData,
     initializeChallenges,
     updateUserChallengeStatus,
-    getUserChallenges
+    getUserChallenges,
+    getUserChallengeStatus
     
 };
 //----------------------------------------------------------------------//
