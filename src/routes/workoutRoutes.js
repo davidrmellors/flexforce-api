@@ -78,8 +78,9 @@ router.get('/challengesWorkouts', getWeeklyWorkoutPlan);
 
 // New routes for challenge initialization and user-specific challenges
 router.post('/initialize-challenges', initializeChallenges); // No authentication required
-router.get('/user-challenges', getUserChallenges); // Requires authentication
-router.post('/user-challenges/update', updateUserChallengeStatus);
+router.get('/user/:userId/challenges', getUserChallenges);
+router.post('/user/:userId/challenges/update', updateUserChallengeStatus);
+
 
 
 module.exports = router;

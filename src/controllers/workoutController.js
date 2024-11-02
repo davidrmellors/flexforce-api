@@ -413,42 +413,52 @@ const initializeChallenges = async (req, res) => {
     }
 };
 
+// Update User Challenge Status in Firestore
 const updateUserChallengeStatus = async (req, res) => {
-    const userId = req.user.uid; // Assuming user is authenticated and req.user.uid contains the userId
-    const { challengeId, status } = req.body; // Expecting challengeId and status in the request body
+    const { userId } = req.params;  // Get userId from URL parameters
+    const { challengeId, status } = req.body;  // Get challengeId and status from request body
 
-    if (!challengeId || !status) {
-        return res.status(400).json({ message: "Challenge ID and status are required" });
+    // Validate the input data
+    if (!userId || !challengeId || !status) {
+        return res.status(400).json({ message: "Invalid input data. userId, challengeId, and status are required." });
     }
 
     try {
-        // Reference to the user's specific challenge document
-        const userChallengeRef = db.collection('userChallenges').doc(`${userId}_${challengeId}`);
-        
-        // Set or update the challenge status and userId
+        // Reference to the user's specific challenge document in Firestore
+        const userChallengeRef = db.collection('users').doc(userId).collection('challenges').doc(challengeId);
+
+        // Set or update the challenge status and userId, including timestamp for the update
         await userChallengeRef.set({
             userId,
             challengeId,
             status,
-            updateDate: new Date().toISOString()
+            updateDate: new Date()
         }, { merge: true });
 
-        res.status(200).json({ message: "User challenge status updated successfully" });
+        res.status(200).json({ message: "User challenge status updated successfully!" });
     } catch (error) {
-        res.status(500).json({ message: "Error updating user challenge status", error: error.message });
+        console.error('Error updating challenge status:', error);
+        res.status(500).json({ message: "Error updating challenge status", error });
     }
 };
 
 
+// Get User-Specific Challenges from Firestore
 const getUserChallenges = async (req, res) => {
-    const userId = req.user.uid; // Assumes user authentication and that req.user.uid contains the userId
+    const { userId } = req.params;  // Get userId from URL parameters
+
+    // Validate the input data
+    if (!userId) {
+        return res.status(400).json({ message: "Invalid input data. userId is required." });
+    }
 
     try {
-        const userChallengesRef = db.collection('userChallenges').where("userId", "==", userId);
+        // Reference to the user's challenges collection in Firestore
+        const userChallengesRef = db.collection('users').doc(userId).collection('challenges');
         const snapshot = await userChallengesRef.get();
 
         if (snapshot.empty) {
-            return res.status(404).json({ message: "No challenges found for this user" });
+            return res.status(404).json({ message: "No challenges found for this user." });
         }
 
         const userChallenges = [];
@@ -458,23 +468,11 @@ const getUserChallenges = async (req, res) => {
 
         res.status(200).json(userChallenges);
     } catch (error) {
-        res.status(500).json({ message: "Error retrieving user challenges", error: error.message });
+        console.error('Error retrieving user challenges:', error);
+        res.status(500).json({ message: "Error retrieving user challenges", error });
     }
 };
 
-const authenticateUser = async (req, res, next) => {
-    const token = req.headers.authorization?.split(' ')[1];  // Expecting Bearer token
-
-    if (!token) return res.status(401).json({ message: "No token provided" });
-
-    try {
-        const decodedToken = await admin.auth().verifyIdToken(token);
-        req.user = decodedToken;
-        next();
-    } catch (error) {
-        res.status(401).json({ message: "Unauthorized", error: error.message });
-    }
-};
 
 //----------------------------------------------------------------------//
 
