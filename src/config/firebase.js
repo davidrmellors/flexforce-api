@@ -2,7 +2,16 @@
 const admin = require('firebase-admin');
 require('dotenv').config();
 
-const serviceAccount = JSON.parse(process.env.SERVICE_ACCOUNT_KEY);
+if (!process.env.SERVICE_ACCOUNT_KEY) {
+    throw new Error("Missing SERVICE_ACCOUNT_KEY environment variable");
+}
+
+let serviceAccount;
+try {
+    serviceAccount = JSON.parse(process.env.SERVICE_ACCOUNT_KEY);
+} catch (error) {
+    throw new Error("Invalid SERVICE_ACCOUNT_KEY environment variable: " + error.message);
+}
 
 admin.initializeApp({
     credential: admin.credential.cert(serviceAccount),
