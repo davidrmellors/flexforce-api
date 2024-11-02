@@ -569,7 +569,7 @@ module.exports = {
     getChallengeData,
     initializeChallenges,
     updateUserChallengeStatus,
-    getUserChallenges,
-    authenticateUser
+    getUserChallenges
+    
 };
 //----------------------------------------------------------------------//

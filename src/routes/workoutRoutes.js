@@ -30,8 +30,7 @@ const {
     getWeeklyWorkoutPlan,
     initializeChallenges,
     getUserChallenges,
-    updateUserChallengeStatus,
-    authenticateUser
+    updateUserChallengeStatus   
 } = require('../controllers/workoutController');
 const router = express.Router();
 
