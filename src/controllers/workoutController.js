@@ -413,7 +413,7 @@ const initializeChallenges = async (req, res) => {
     }
 };
 
-// Update User Challenge Status in Firestore
+// Update or create a user challenge status in Firestore
 const updateUserChallengeStatus = async (req, res) => {
     const { userId } = req.params;  // Get userId from URL parameters
     const { challengeId, status } = req.body;  // Get challengeId and status from request body
@@ -424,23 +424,23 @@ const updateUserChallengeStatus = async (req, res) => {
     }
 
     try {
-        // Reference to the user's specific challenge document in Firestore
+        // Reference to the user's challenges subcollection and specific challenge document
         const userChallengeRef = db.collection('users').doc(userId).collection('challenges').doc(challengeId);
 
-        // Set or update the challenge status and userId, including timestamp for the update
+        // Set only userId, challengeId, and status in the challenge document
         await userChallengeRef.set({
             userId,
             challengeId,
-            status,
-            updateDate: new Date()
-        }, { merge: true });
+            status
+        });
 
-        res.status(200).json({ message: "User challenge status updated successfully!" });
+        res.status(200).json({ message: "User challenge status created or updated successfully!" });
     } catch (error) {
         console.error('Error updating challenge status:', error);
         res.status(500).json({ message: "Error updating challenge status", error });
     }
 };
+
 
 
 // Get User-Specific Challenges from Firestore
