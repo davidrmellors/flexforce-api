@@ -364,6 +364,118 @@ const getUserWorkout = async (req, res) => {
         res.status(500).json({ message: 'Error saving workout', error });
     }
 };
+
+const initializeChallenges = async (req, res) => {
+    const challengeData = {
+        "Challenge 1": {
+            challengeId: "Challenge 1",
+            timePeriod: "30 Days",
+            challengeType: "Beginner",
+            tracking: "Daily Progress",
+            description: "A 30-day challenge designed for beginners to build foundational strength and endurance.",
+            userId: null,
+            status: null
+        },
+        "Challenge 2": {
+            challengeId: "Challenge 2",
+            timePeriod: "45 Days",
+            challengeType: "Intermediate",
+            tracking: "Weekly Check-ins",
+            description: "A 45-day challenge aimed at intermediate fitness enthusiasts to enhance their performance.",
+            userId: null,
+            status: null
+        },
+        "Challenge 3": {
+            challengeId: "Challenge 3",
+            timePeriod: "60 Days",
+            challengeType: "Advanced",
+            tracking: "Monthly Review",
+            description: "A 60-day advanced challenge for seasoned athletes to push their limits and achieve peak fitness.",
+            userId: null,
+            status: null
+        }
+    };
+
+    try {
+        const batch = db.batch();
+
+        // Add each challenge to Firestore
+        Object.keys(challengeData).forEach(challengeId => {
+            const challengeRef = db.collection('challenges').doc(challengeId);
+            batch.set(challengeRef, challengeData[challengeId], { merge: true });
+        });
+
+        await batch.commit();
+
+        res.status(200).json({ message: "Challenges initialized successfully" });
+    } catch (error) {
+        res.status(500).json({ message: "Error initializing challenges", error: error.message });
+    }
+};
+
+const updateUserChallengeStatus = async (req, res) => {
+    const userId = req.user.uid; // Assuming user is authenticated and req.user.uid contains the userId
+    const { challengeId, status } = req.body; // Expecting challengeId and status in the request body
+
+    if (!challengeId || !status) {
+        return res.status(400).json({ message: "Challenge ID and status are required" });
+    }
+
+    try {
+        // Reference to the user's specific challenge document
+        const userChallengeRef = db.collection('userChallenges').doc(`${userId}_${challengeId}`);
+        
+        // Set or update the challenge status and userId
+        await userChallengeRef.set({
+            userId,
+            challengeId,
+            status,
+            updateDate: new Date().toISOString()
+        }, { merge: true });
+
+        res.status(200).json({ message: "User challenge status updated successfully" });
+    } catch (error) {
+        res.status(500).json({ message: "Error updating user challenge status", error: error.message });
+    }
+};
+
+
+const getUserChallenges = async (req, res) => {
+    const userId = req.user.uid; // Assumes user authentication and that req.user.uid contains the userId
+
+    try {
+        const userChallengesRef = db.collection('userChallenges').where("userId", "==", userId);
+        const snapshot = await userChallengesRef.get();
+
+        if (snapshot.empty) {
+            return res.status(404).json({ message: "No challenges found for this user" });
+        }
+
+        const userChallenges = [];
+        snapshot.forEach(doc => {
+            userChallenges.push(doc.data());
+        });
+
+        res.status(200).json(userChallenges);
+    } catch (error) {
+        res.status(500).json({ message: "Error retrieving user challenges", error: error.message });
+    }
+};
+
+const authenticateUser = async (req, res, next) => {
+    const token = req.headers.authorization?.split(' ')[1];  // Expecting Bearer token
+
+    if (!token) return res.status(401).json({ message: "No token provided" });
+
+    try {
+        const decodedToken = await admin.auth().verifyIdToken(token);
+        req.user = decodedToken;
+        next();
+    } catch (error) {
+        res.status(401).json({ message: "Unauthorized", error: error.message });
+    }
+};
+
 //----------------------------------------------------------------------//
 
 const getWeeklyWorkoutPlan = async (req, res) => {
@@ -456,6 +568,10 @@ module.exports = {
     addUserWorkout,
     getWeeklyWorkoutPlan,
     deleteUserWorkout,
-    getChallengeData
+    getChallengeData,
+    initializeChallenges,
+    updateUserChallengeStatus,
+    getUserChallenges,
+    authenticateUser
 };
 //----------------------------------------------------------------------//
