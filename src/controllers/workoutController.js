@@ -8,80 +8,64 @@ const getExercisesByMuscles = async (req, res) => {
 
     // A dictionary of muscle group to exercise mappings including muscle group and equipment
     const exerciseDictionary = {
-        "Back": [
-            { name: "Deadlift", sets: 4, reps: 6 },
-            { name: "Pull-ups", sets: 4, reps: 8 },
-            { name: "Barbell Rows", sets: 4, reps: 10 },
-            { name: "Lat Pulldowns", sets: 4, reps: 12 },
-            { name: "T-Bar Rows", sets: 4, reps: 10 },
-            { name: "Face Pulls", sets: 3, reps: 15 },
-            { name: "Seated Cable Rows", sets: 4, reps: 12 },
-            { name: "Single-Arm Dumbbell Rows", sets: 3, reps: 12 }
-        ],
-        "Biceps": [
-            { name: "Barbell Bicep Curl", sets: 4, reps: 10 },
-            { name: "Hammer Curls", sets: 4, reps: 12 },
-            { name: "Preacher Curls", sets: 3, reps: 12 },
-            { name: "Concentration Curls", sets: 3, reps: 12 },
-            { name: "Cable Bicep Curls", sets: 3, reps: 15 },
-            { name: "Incline Dumbbell Curls", sets: 3, reps: 12 }
-        ],
-        "Chest": [
-            { name: "Flat Bench Press", sets: 4, reps: 8 },
-            { name: "Incline Bench Press", sets: 4, reps: 8 },
-            { name: "Decline Bench Press", sets: 4, reps: 10 },
-            { name: "Dumbbell Flyes", sets: 4, reps: 10 },
-            { name: "Cable Flyes", sets: 3, reps: 12 },
-            { name: "Push-Ups", sets: 4, reps: 15 },
-            { name: "Dips", sets: 3, reps: 12 }
-        ],
-        "Legs": [
-            { name: "Back Squats", sets: 4, reps: 10 },
-            { name: "Front Squats", sets: 4, reps: 8 },
-            { name: "Romanian Deadlifts", sets: 4, reps: 10 },
-            { name: "Walking Lunges", sets: 3, reps: 12 },
-            { name: "Leg Press", sets: 4, reps: 12 },
-            { name: "Leg Extensions", sets: 3, reps: 15 },
-            { name: "Leg Curls", sets: 3, reps: 12 },
-            { name: "Calf Raises", sets: 4, reps: 20 }
-        ],
-        "Shoulders": [
-            { name: "Military Press", sets: 4, reps: 10 },
-            { name: "Lateral Raises", sets: 4, reps: 12 },
-            { name: "Front Raises", sets: 3, reps: 12 },
-            { name: "Rear Delt Flyes", sets: 3, reps: 15 },
-            { name: "Upright Rows", sets: 3, reps: 12 },
-            { name: "Arnold Press", sets: 3, reps: 10 },
-            { name: "Shrugs", sets: 4, reps: 15 }
-        ],
-        "Abs": [
-            { name: "Crunches", sets: 4, reps: 20 },
-            { name: "Leg Raises", sets: 3, reps: 15 },
-            { name: "Plank", sets: 3, reps: 60 }, // seconds
-            { name: "Russian Twists", sets: 3, reps: 20 },
-            { name: "Cable Woodchops", sets: 3, reps: 15 },
-            { name: "Ab Wheel Rollouts", sets: 3, reps: 12 },
-            { name: "Mountain Climbers", sets: 3, reps: 30 }
-        ],
-        "Triceps": [
-            { name: "Tricep Pushdowns", sets: 4, reps: 12 },
-            { name: "Overhead Tricep Extensions", sets: 4, reps: 12 },
-            { name: "Close-Grip Bench Press", sets: 4, reps: 10 },
-            { name: "Diamond Push-Ups", sets: 3, reps: 15 },
-            { name: "Tricep Dips", sets: 4, reps: 12 },
-            { name: "Skull Crushers", sets: 3, reps: 12 }
-        ],
-        "Arms": [
-            { name: "EZ Bar Curls", sets: 4, reps: 10 },
-            { name: "Tricep Pushdowns", sets: 4, reps: 12 },
-            { name: "Hammer Curls", sets: 3, reps: 12 },
-            { name: "Overhead Extensions", sets: 3, reps: 12 },
-            { name: "Reverse Curls", sets: 3, reps: 15 },
-            { name: "Close-Grip Pushups", sets: 3, reps: 15 },
-            { name: "Cable Curls", sets: 3, reps: 12 },
-            { name: "Rope Pushdowns", sets: 3, reps: 15 }
-        ]
+        "Forearms": { name: "Wrist Curl", sets: 4, reps: 12, muscleGroup: "Forearms", equipment: "Dumbbells" },
+        "Reverse Wrist Curl": { name: "Reverse Wrist Curl", sets: 3, reps: 15, muscleGroup: "Forearms", equipment: "Dumbbells" },
+        "Farmer's Walk": { name: "Farmer's Walk", sets: 3, reps: 30, muscleGroup: "Forearms", equipment: "Dumbbells" },
+        
+        "Biceps": { name: "Bicep Curl", sets: 4, reps: 10, muscleGroup: "Biceps", equipment: "Barbell" },
+        "Hammer Curl": { name: "Hammer Curl", sets: 3, reps: 12, muscleGroup: "Biceps", equipment: "Dumbbells" },
+        "Preacher Curl": { name: "Preacher Curl", sets: 4, reps: 10, muscleGroup: "Biceps", equipment: "Machine" },
+        
+        "Triceps": { name: "Tricep Extension", sets: 4, reps: 12, muscleGroup: "Triceps", equipment: "Cable Machine" },
+        "Tricep Dip": { name: "Tricep Dip", sets: 4, reps: 15, muscleGroup: "Triceps", equipment: "Body Weight" },
+        "Skull Crusher": { name: "Skull Crusher", sets: 3, reps: 10, muscleGroup: "Triceps", equipment: "Barbell" },
+        
+        "Deltoids": { name: "Shoulder Press", sets: 4, reps: 10, muscleGroup: "Deltoids", equipment: "Dumbbells" },
+        "Lateral Raise": { name: "Lateral Raise", sets: 3, reps: 12, muscleGroup: "Deltoids", equipment: "Dumbbells" },
+        "Front Raise": { name: "Front Raise", sets: 3, reps: 12, muscleGroup: "Deltoids", equipment: "Dumbbells" },
+        
+        "Pectorals": { name: "Bench Press", sets: 4, reps: 8, muscleGroup: "Pectorals", equipment: "Barbell" },
+        "Chest Fly": { name: "Chest Fly", sets: 4, reps: 10, muscleGroup: "Pectorals", equipment: "Dumbbells" },
+        "Incline Bench Press": { name: "Incline Bench Press", sets: 4, reps: 8, muscleGroup: "Pectorals", equipment: "Barbell" },
+        
+        "Upper Back": { name: "Pull-Up", sets: 4, reps: 8, muscleGroup: "Upper Back", equipment: "Body Weight" },
+        "Bent-Over Row": { name: "Bent-Over Row", sets: 4, reps: 10, muscleGroup: "Upper Back", equipment: "Barbell" },
+        "Lat Pulldown": { name: "Lat Pulldown", sets: 4, reps: 12, muscleGroup: "Upper Back", equipment: "Machine" },
+        
+        "Trapezius": { name: "Shrugs", sets: 4, reps: 12, muscleGroup: "Traps", equipment: "Dumbbells" },
+        "Face Pull": { name: "Face Pull", sets: 4, reps: 12, muscleGroup: "Traps", equipment: "Cable Machine" },
+        
+        "Paravertebrals": { name: "Back Extension", sets: 3, reps: 12, muscleGroup: "Paravertebrals", equipment: "Body Weight" },
+        
+        "Lower Back": { name: "Deadlift", sets: 4, reps: 6, muscleGroup: "Lower Back", equipment: "Barbell" },
+        "Good Morning": { name: "Good Morning", sets: 3, reps: 10, muscleGroup: "Lower Back", equipment: "Barbell" },
+        
+        "Gluteus": { name: "Hip Thrust", sets: 4, reps: 10, muscleGroup: "Glutes", equipment: "Barbell" },
+        "Glute Bridge": { name: "Glute Bridge", sets: 4, reps: 12, muscleGroup: "Glutes", equipment: "Body Weight" },
+        
+        "Hamstrings": { name: "Leg Curl", sets: 4, reps: 12, muscleGroup: "Hamstrings", equipment: "Machine" },
+        "Romanian Deadlift": { name: "Romanian Deadlift", sets: 4, reps: 8, muscleGroup: "Hamstrings", equipment: "Barbell" },
+        
+        "Calves": { name: "Calf Raise", sets: 4, reps: 15, muscleGroup: "Calves", equipment: "Body Weight" },
+        "Seated Calf Raise": { name: "Seated Calf Raise", sets: 4, reps: 12, muscleGroup: "Calves", equipment: "Machine" },
+        
+        "Abdominals": { name: "Crunches", sets: 4, reps: 20, muscleGroup: "Abs", equipment: "Body Weight" },
+        "Leg Raise": { name: "Leg Raise", sets: 3, reps: 15, muscleGroup: "Abs", equipment: "Body Weight" },
+        "Plank": { name: "Plank", sets: 3, reps: 60, muscleGroup: "Abs", equipment: "Body Weight (seconds)" },
+        
+        "Obliques": { name: "Side Plank", sets: 3, reps: 30, muscleGroup: "Obliques", equipment: "Body Weight (seconds)" },
+        "Russian Twist": { name: "Russian Twist", sets: 3, reps: 20, muscleGroup: "Obliques", equipment: "Medicine Ball" },
+        
+        "Adductors": { name: "Adductor Machine", sets: 4, reps: 12, muscleGroup: "Adductors", equipment: "Machine" },
+        
+        "Quadriceps": { name: "Leg Press", sets: 4, reps: 10, muscleGroup: "Quads", equipment: "Machine" },
+        "Squat": { name: "Squat", sets: 4, reps: 8, muscleGroup: "Quads", equipment: "Barbell" },
+        "Lunge": { name: "Lunge", sets: 4, reps: 12, muscleGroup: "Quads", equipment: "Dumbbells" },
+        
+        "Chest": { name: "Bench Press", sets: 4, reps: 10, muscleGroup: "Chest", equipment: "Barbell" },
+        "Push-Up": { name: "Push-Up", sets: 4, reps: 15, muscleGroup: "Chest", equipment: "Body Weight" }
     };
+    
 
     // If no muscles are provided, return all exercises
     if (!muscles || muscles.length === 0) {
