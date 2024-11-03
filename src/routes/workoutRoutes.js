@@ -29,7 +29,8 @@ const {
     getChallengeData,
     getWeeklyWorkoutPlan,  
     updateUserChallengeStatus,
-    getUserChallengeStatus   
+    getUserChallengeStatus,
+    initializeChallenges  
 } = require('../controllers/workoutController');
 const router = express.Router();
 
@@ -73,6 +74,7 @@ router.get('/user/:userId/workouts', getUserWorkouts);
 //Challenge routes
 router.get('/challenges/:challengeId', getChallengeData);
 router.get('/challengesWorkouts', getWeeklyWorkoutPlan);
+router.post('/initializeChallenges', initializeChallenges);
 
 // New routes for challenge initialization and user-specific challenges
 

@@ -156,41 +156,32 @@ const getExercisesByMuscles = async (req, res) => {
 
 //---------------------------------------------------------------------------------------------------//
 
+
 const getChallengeData = async (req, res) => {
     const challengeId = req.params.challengeId;
 
-    const challengeData = {
-        "Challenge 1": {
-            challengeId: "Challenge 1",
-            timePeriod: "30 Days",
-            challengeType: "Beginner",
-            tracking: "Daily Progress",
-            description: "A 30-day challenge designed for beginners to build foundational strength and endurance."
-        },
-        "Challenge 2": {
-            challengeId: "Challenge 2",
-            timePeriod: "45 Days",
-            challengeType: "Intermediate",
-            tracking: "Weekly Check-ins",
-            description: "A 45-day challenge aimed at intermediate fitness enthusiasts to enhance their performance."
-        },
-        "Challenge 3": {
-            challengeId: "Challenge 3",
-            timePeriod: "60 Days",
-            challengeType: "Advanced",
-            tracking: "Monthly Review",
-            description: "A 60-day advanced challenge for seasoned athletes to push their limits and achieve peak fitness."
+    try {
+        // Reference to the specific challenge document in the "challenges-details" collection
+        const challengeRef = db.collection('challenges-details').doc(challengeId);
+        const doc = await challengeRef.get();
+
+        // Check if the document exists
+        if (!doc.exists) {
+            return res.status(404).json({ message: "Challenge not found" });
         }
-    };
 
-    const selectedChallenge = challengeData[challengeId];
-
-    if (selectedChallenge) {
-        res.status(200).json(selectedChallenge);
-    } else {
-        res.status(404).json({ message: "Challenge not found" });
+        // Send the challenge data as JSON
+        res.status(200).json(doc.data());
+    } catch (error) {
+        console.error('Error retrieving challenge data:', error);
+        res.status(500).json({ message: "Error retrieving challenge data", error: error.message });
     }
 };
+
+module.exports = {
+    getChallengeData
+};
+
 //-------------------------------------------------------------------------------------//
 
 
@@ -482,27 +473,21 @@ const initializeChallenges = async (req, res) => {
             timePeriod: "30 Days",
             challengeType: "Beginner",
             tracking: "Daily Progress",
-            description: "A 30-day challenge designed for beginners to build foundational strength and endurance.",
-            userId: null,
-            status: null
+            description: "A 30-day challenge designed for beginners to build foundational strength and endurance."          
         },
         "Challenge 2": {
             challengeId: "Challenge 2",
             timePeriod: "45 Days",
             challengeType: "Intermediate",
             tracking: "Weekly Check-ins",
-            description: "A 45-day challenge aimed at intermediate fitness enthusiasts to enhance their performance.",
-            userId: null,
-            status: null
+            description: "A 45-day challenge aimed at intermediate fitness enthusiasts to enhance their performance."           
         },
         "Challenge 3": {
             challengeId: "Challenge 3",
             timePeriod: "60 Days",
             challengeType: "Advanced",
             tracking: "Monthly Review",
-            description: "A 60-day advanced challenge for seasoned athletes to push their limits and achieve peak fitness.",
-            userId: null,
-            status: null
+            description: "A 60-day advanced challenge for seasoned athletes to push their limits and achieve peak fitness."        
         }
     };
 
@@ -511,7 +496,7 @@ const initializeChallenges = async (req, res) => {
 
         // Add each challenge to Firestore
         Object.keys(challengeData).forEach(challengeId => {
-            const challengeRef = db.collection('challenges').doc(challengeId);
+            const challengeRef = db.collection('challenges-details').doc(challengeId);
             batch.set(challengeRef, challengeData[challengeId], { merge: true });
         });
 
