@@ -519,37 +519,75 @@ const getWeeklyWorkoutPlan = async (req, res) => {
         "Back": [
             { name: "Deadlift", sets: 4, reps: 6 },
             { name: "Pull-ups", sets: 4, reps: 8 },
-            { name: "Barbell Rows", sets: 4, reps: 10 }
+            { name: "Barbell Rows", sets: 4, reps: 10 },
+            { name: "Lat Pulldowns", sets: 4, reps: 12 },
+            { name: "T-Bar Rows", sets: 4, reps: 10 },
+            { name: "Face Pulls", sets: 3, reps: 15 },
+            { name: "Seated Cable Rows", sets: 4, reps: 12 },
+            { name: "Single-Arm Dumbbell Rows", sets: 3, reps: 12 }
         ],
         "Biceps": [
-            { name: "Bicep Curl", sets: 4, reps: 10 },
-            { name: "Hammer Curls", sets: 4, reps: 12 }
+            { name: "Barbell Bicep Curl", sets: 4, reps: 10 },
+            { name: "Hammer Curls", sets: 4, reps: 12 },
+            { name: "Preacher Curls", sets: 3, reps: 12 },
+            { name: "Concentration Curls", sets: 3, reps: 12 },
+            { name: "Cable Bicep Curls", sets: 3, reps: 15 },
+            { name: "Incline Dumbbell Curls", sets: 3, reps: 12 }
         ],
         "Chest": [
-            { name: "Bench Press", sets: 4, reps: 8 },
+            { name: "Flat Bench Press", sets: 4, reps: 8 },
             { name: "Incline Bench Press", sets: 4, reps: 8 },
-            { name: "Dumbbell Flyes", sets: 4, reps: 10 }
+            { name: "Decline Bench Press", sets: 4, reps: 10 },
+            { name: "Dumbbell Flyes", sets: 4, reps: 10 },
+            { name: "Cable Flyes", sets: 3, reps: 12 },
+            { name: "Push-Ups", sets: 4, reps: 15 },
+            { name: "Dips", sets: 3, reps: 12 }
         ],
         "Legs": [
-            { name: "Squat", sets: 4, reps: 10 },
-            { name: "Lunges", sets: 3, reps: 12 },
-            { name: "Leg Press", sets: 4, reps: 10 }
+            { name: "Back Squats", sets: 4, reps: 10 },
+            { name: "Front Squats", sets: 4, reps: 8 },
+            { name: "Romanian Deadlifts", sets: 4, reps: 10 },
+            { name: "Walking Lunges", sets: 3, reps: 12 },
+            { name: "Leg Press", sets: 4, reps: 12 },
+            { name: "Leg Extensions", sets: 3, reps: 15 },
+            { name: "Leg Curls", sets: 3, reps: 12 },
+            { name: "Calf Raises", sets: 4, reps: 20 }
         ],
         "Shoulders": [
-            { name: "Shoulder Press", sets: 4, reps: 10 },
-            { name: "Lateral Raises", sets: 4, reps: 12 }
+            { name: "Military Press", sets: 4, reps: 10 },
+            { name: "Lateral Raises", sets: 4, reps: 12 },
+            { name: "Front Raises", sets: 3, reps: 12 },
+            { name: "Rear Delt Flyes", sets: 3, reps: 15 },
+            { name: "Upright Rows", sets: 3, reps: 12 },
+            { name: "Arnold Press", sets: 3, reps: 10 },
+            { name: "Shrugs", sets: 4, reps: 15 }
         ],
         "Abs": [
             { name: "Crunches", sets: 4, reps: 20 },
-            { name: "Side Plank", sets: 3, reps: 30 } // seconds
+            { name: "Leg Raises", sets: 3, reps: 15 },
+            { name: "Plank", sets: 3, reps: 60 }, // seconds
+            { name: "Russian Twists", sets: 3, reps: 20 },
+            { name: "Cable Woodchops", sets: 3, reps: 15 },
+            { name: "Ab Wheel Rollouts", sets: 3, reps: 12 },
+            { name: "Mountain Climbers", sets: 3, reps: 30 }
         ],
         "Triceps": [
-            { name: "Tricep Extension", sets: 4, reps: 12 },
-            { name: "Tricep Dips", sets: 4, reps: 10 }
+            { name: "Tricep Pushdowns", sets: 4, reps: 12 },
+            { name: "Overhead Tricep Extensions", sets: 4, reps: 12 },
+            { name: "Close-Grip Bench Press", sets: 4, reps: 10 },
+            { name: "Diamond Push-Ups", sets: 3, reps: 15 },
+            { name: "Tricep Dips", sets: 4, reps: 12 },
+            { name: "Skull Crushers", sets: 3, reps: 12 }
         ],
         "Arms": [
-            { name: "Bicep Curl", sets: 4, reps: 10 },
-            { name: "Tricep Extension", sets: 4, reps: 12 }
+            { name: "EZ Bar Curls", sets: 4, reps: 10 },
+            { name: "Tricep Pushdowns", sets: 4, reps: 12 },
+            { name: "Hammer Curls", sets: 3, reps: 12 },
+            { name: "Overhead Extensions", sets: 3, reps: 12 },
+            { name: "Reverse Curls", sets: 3, reps: 15 },
+            { name: "Close-Grip Pushups", sets: 3, reps: 15 },
+            { name: "Cable Curls", sets: 3, reps: 12 },
+            { name: "Rope Pushdowns", sets: 3, reps: 15 }
         ]
     };
 
